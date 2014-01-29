@@ -185,6 +185,7 @@ namespace EventStore.Core.Services.Gossip
                 return;
             }
             Log.Trace("Looks like node [{0}] is DEAD (Gossip send failed).", message.Recipient);
+            Log.Trace("Gossip send failure reason: {0}", message.Reason);
 
             var oldCluster = _cluster;
             _cluster = UpdateCluster(_cluster, x => x.Is(message.Recipient) ? x.Updated(isAlive: false) : x);
