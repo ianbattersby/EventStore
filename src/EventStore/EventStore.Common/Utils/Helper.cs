@@ -24,17 +24,19 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-// 
+
 using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using EventStore.Common.Log;
 
 namespace EventStore.Common.Utils
 {
     public static class Helper
     {
         public static readonly UTF8Encoding UTF8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+        public static readonly ILogger Log = LogManager.GetLoggerFor(typeof (Helper));
 
         public static void EatException(Action action)
         {
@@ -42,8 +44,9 @@ namespace EventStore.Common.Utils
             {
                 action();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.DebugException(ex, "Eating exception.");
             }
         }
 
@@ -53,8 +56,9 @@ namespace EventStore.Common.Utils
             {
                 return action();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.DebugException(ex, "Eating exception.");
                 return defaultValue;
             }
         }

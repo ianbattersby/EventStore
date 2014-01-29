@@ -26,20 +26,24 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 using System;
+using EventStore.Common.Log;
 using EventStore.Common.Utils;
 
 namespace EventStore.Transport.Tcp
 {
     internal static class Helper
     {
+        public static readonly ILogger Log = LogManager.GetLoggerFor(typeof(Helper));
+
         public static void EatException(Action action)
         {
             try
             {
                 action();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.DebugException(ex, "Eating exception.");
             }
         }
 
@@ -50,8 +54,9 @@ namespace EventStore.Transport.Tcp
             {
                 return func();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.DebugException(ex, "Eating exception.");
                 return defaultValue;
             }
         }
