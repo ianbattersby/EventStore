@@ -100,7 +100,7 @@ namespace EventStore.Core.Tests.Helpers
             var singleVNodeSettings = new SingleVNodeSettings(TcpEndPoint,
                                                               TcpSecEndPoint,
                                                               HttpEndPoint,
-                                                              new[] { HttpEndPoint.ToHttpUrl() },
+                                                              new[] { HttpEndPoint.ToHttpUrl().Replace("127.0.0.1", "localhost") },
                                                               enableTrustedAuth,
                                                               ssl_connections.GetCertificate(),
                                                               1,
